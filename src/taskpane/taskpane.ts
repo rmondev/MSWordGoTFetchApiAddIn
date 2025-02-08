@@ -51,3 +51,47 @@ export async function insertBooksIntoDocument() {
     console.error("Error inserting books:", error);
   }
 }
+
+//Get characters
+
+interface Aliases {
+  aliases: string[];
+}
+
+export async function getAliases(): Promise<Aliases[]> {
+  try {
+    const response = await fetch("https://www.anapioficeandfire.com/api/characters");
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const characters: Aliases[] = await response.json();
+    return characters;
+  } catch (error) {
+    console.error("Error fetching characters:", error);
+    throw error;
+  }
+}
+
+/**
+ * Inserts character details into the Word document.
+ */
+
+export async function insertAliasesIntoDocument() {
+  try {
+    const characters = await getAliases();
+    await Word.run(async (context) => {
+      const body = context.document.body;
+      body.insertParagraph("Characters List:", Word.InsertLocation.end);
+
+      characters.forEach((character) => {
+        body.insertParagraph(`📖 ${character.aliases[0]}`, Word.InsertLocation.end);
+      });
+
+      await context.sync();
+    });
+  } catch (error) {
+    console.error("Error inserting characters:", error);
+  }
+}

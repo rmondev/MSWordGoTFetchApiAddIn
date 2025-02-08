@@ -2,9 +2,10 @@ import * as React from "react";
 import Header from "./Header";
 import HeroList, { HeroListItem } from "./HeroList";
 //import TextInsertion from "./TextInsertion";
-import { Button, makeStyles } from "@fluentui/react-components";
+import { Button, Field, makeStyles } from "@fluentui/react-components";
 import { Ribbon24Regular, LockOpen24Regular, DesignIdeas24Regular } from "@fluentui/react-icons";
-import { insertBooksIntoDocument } from "../taskpane";
+import { insertBooksIntoDocument, insertAliasesIntoDocument } from "../taskpane";
+//import TextInsertion from "./TextInsertion";
 
 interface AppProps {
   title: string;
@@ -54,9 +55,15 @@ const App: React.FC<AppProps> = (props: AppProps) => {
     <div className={styles.root}>
       <Header logo="assets/logo-filled.png" title={props.title} message="Hello" />
       <HeroList message="Discover what this add-in can do for you today!" items={listItems} />
-
+      {/* Press Button to Generate Book Titles */}
+      <Field>Hello</Field>
       {/* Button centred on the page */}
-      <Button onClick={insertBooksIntoDocument}>Insert Books</Button>
+      <Button appearance="primary" onClick={insertBooksIntoDocument}>
+        Insert Books
+      </Button>
+      <Button appearance="outline" onClick={insertAliasesIntoDocument}>
+        Insert Aliases
+      </Button>
     </div>
   );
 };
